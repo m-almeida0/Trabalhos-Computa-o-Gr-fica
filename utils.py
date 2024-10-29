@@ -205,10 +205,10 @@ class RenderableObject:
         self.rotation_matrix = np.dot(self.rotation_matrix_x, np.dot(self.rotation_matrix_y, self.rotation_matrix_z))
         self.scale_matrix = gen_scale_matrix(self.scale[0], self.scale[1], self.scale[2])
     
-    def set_scale(self, scale):
-        self.scale[0] = scale
-        self.scale[1] = scale
-        self.scale[2] = scale
+    def set_scale(self, scale_x, scale_y, scale_z):
+        self.scale[0] = scale_x
+        self.scale[1] = scale_y
+        self.scale[2] = scale_z
 
     def set_rotation(self, x:float, y:float, z:float):
         self.rotation_matrix_x = gen_rot_matrix_x(x)
@@ -289,6 +289,9 @@ class Camera:
     def set_up(self, x, y, z):
         self.up = np.array([x, y, z], dtype=np.float32)
         self.view_matrix = self.calculate_view_matrix()
+
+    def get_position(self):
+        return self.position
 
     def get_view_matrix(self):
         return self.view_matrix

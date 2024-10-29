@@ -5,6 +5,9 @@ import OpenGL.GL.shaders
 import numpy as np
 from PIL import Image
 
+import random
+import math
+
 #import glm
 
 import utils
@@ -20,6 +23,8 @@ import utils
 #    return mat_view
 
 polygon = False
+spinning = False
+tree_scale = 1.0
 
 def perspective_projection(fov, aspect_ratio, near, far):
     # Convert field of view from degrees to radians
@@ -40,6 +45,8 @@ def perspective_projection(fov, aspect_ratio, near, far):
     projection_matrix[3, 3] = 0
     
     return projection_matrix
+
+obj_array = {}
 
 def main():
     if not glfw.init():
@@ -99,24 +106,66 @@ def main():
     projection_loc = glGetUniformLocation(shader, "projection")
 
     #att: adicionando os objetos ao array
-    obj_array = {}
+    #obj_array = {}
+    global obj
     obj_array["cottage"] = utils.RenderableObject("cottage", [0.0, 0.0, 0.0], "models/cottage/cottage_obj.obj", "models/cottage/textures/cottage_diffuse.png")
     obj_array["nightstand"] = utils.RenderableObject("nightstand", [0.0, 0.0, 0.0], "models/Nightstand_obj/Nightstand.obj", "models/Nightstand_obj/Wood1_Albedo.png")
-    obj_array["little_ghost"] = utils.RenderableObject("little_ghost", [0.0, 0.0, 0.0], "models/little_gost.obj", "models/ghost.png")
-    #obj = utils.RenderableObject("skybox", [0.0, 0.0, 0.0], "models/skybox.obj", "models/Nightstand_obj/Wood1_Albedo.png")
-    camera = utils.Camera(position=[0.0, 0.4, -1.0])
+    obj_array["little_ghost"] = utils.RenderableObject("little_ghost", [0.0, 0.0, 0.0], "models/ghost/little_gost.obj", "models/ghost/ghost.png")
+    obj_array['skybox'] = utils.RenderableObject("skybox", [0.0, 0.6, -1.0], "models/skybox/skybox.obj", "models/skybox/skybox.png")
+    obj_array['wood_floor'] = utils.RenderableObject("wood_floor", [0.0, 0.0, 0.0], "models/wood_floor/wood_floor.obj", "models/wood_floor/wood_floor.jpg")
+    obj_array['grass'] = utils.RenderableObject("grass", [0.0, 0.0, 0.0], "models/grass/grass.obj", "models/grass/SM_Prop_Grass_1001_BaseColor.png")
+    obj_array['wind_rooster'] = utils.RenderableObject("woord_rooster", [0.0, 0.0, 0.0], "models/wind_rooster/wind_rooster.obj", "models/wind_rooster/wind_rooster.png")
+    obj_array['wolf'] = utils.RenderableObject("wolf", [0.0, 0.0, 0.0], "models/wolf/wolf.obj", "models/wolf/wolf.jpg")
+    
+    obj_array['tree'] = utils.RenderableObject(f'tree_i', [0.0, 0.0, 0.0], "models/tree/tree.obj", "models/tree/tree.png")
+    obj_array['tree'].set_scale(0.01,0.01,0.01)
+    obj_array['tree'].update_matrices()
+    
+    random.seed(42)
+    tree_pos = []
+    for i in range(1,21):
+        X = random.choice([random.randint(20, 100), random.randint(-100, -20)])
+        Z = random.choice([random.randint(20, 100), random.randint(-100, -20)])
+        S = float(random.randint(5, 20))/1000.0
+        tree_pos.append([float(X), float(Z), S])
+    
+    camera = utils.Camera(position=[0.0, 2.0, -1.0])
 
     fov = 60  # Field of view in degrees
     aspect_ratio = 16 / 9  # Aspect ratio of the viewport
     near = 0.1  # Near clipping plane
-    far = 100.0  # Far clipping plane
+    far = 10000.0  # Far clipping plane
 
     projection_matrix = perspective_projection(fov, aspect_ratio, near, far)
 
-    #att: modificando as propriedades de um objeto
-    obj_array["nightstand"].set_pos(2.0, 0.5, 0.0)
-    obj_array["nightstand"].set_scale(1.5)
+    # att: modificando as propriedades de um objeto
+    obj_array["nightstand"].set_pos(2.0, 0.11, -7)
+    obj_array["nightstand"].set_scale(6,6,6)
     obj_array["nightstand"].update_matrices()
+
+    obj_array['skybox'].set_scale(10,10,10)
+    obj_array['skybox'].update_matrices()
+
+    obj_array['grass'].set_pos(0,0.11,0)
+    obj_array['grass'].set_scale(500,1,500)
+    obj_array['grass'].update_matrices()
+
+    obj_array['wind_rooster'].set_scale(0.05,0.05,0.05)
+    obj_array['wind_rooster'].set_pos(0,15.8,0)
+    obj_array['wind_rooster'].update_matrices()
+
+    # obj_array['tree'].set_scale(0.01,0.01,0.01)
+    # obj_array['tree'].set_pos(17,0,0)
+    # obj_array['tree'].update_matrices()
+
+    obj_array['wood_floor'].set_pos(0,0.2,0)
+    obj_array['wood_floor'].set_scale(13,1,8)
+    obj_array['wood_floor'].update_matrices()
+
+    obj_array['wolf'].set_rotation(-90,0,math.pi)
+    obj_array['wolf'].update_matrices()
+    obj_array['wolf'].set_pos(25,0.11,45)
+    obj_array['wolf'].update_matrices()
 
     glUseProgram(shader)
     texture1_loc = glGetUniformLocation(shader, "texture1")
@@ -131,34 +180,80 @@ def main():
                          0.0, 0.0, 0.0, 1.0], dtype=np.float32)
 
     def key_event(window, key, scancode, action, mods):
-        global polygon
-        w, a, s, d, j, k, q, e, r, f, p = 87, 65, 83, 68, 74, 75, 81, 69, 82, 70, 80
-        speed_inc = 0.02
-        max_speed = 0.3
+        global polygon, spinning, tree_scale
+        w, a, s, d, q, e = 87, 65, 83, 68, 81, 69
+        translation_keys = [w, a, s, d, q, e]
+        j, k, r, f, p = 74, 75, 82, 70, 80
+        m, n, x = 77, 78, 88
+        speed_inc = 2
+        max_speed = 300000
+        min_speed = 0.05
+        max_squared_radius = 50000.0
+        ground_level = 0.6
+        max_scale = 2.0
+        min_scale = 0.5
+        scale_inc = 0.1
         #print(key)
         if (action == 1 or action == 2):
-            if key == a:
-                camera.move_camera(camera.linear_speed)
-            if key == d:
-                camera.move_camera(-camera.linear_speed)
-            if key == w:
-                camera.move_camera(z=camera.linear_speed)
-            if key == s:
-                camera.move_camera(z=-camera.linear_speed)
+            if key in translation_keys:
+                old_camera_pos = camera.get_position()
+                if key == a:
+                    camera.move_camera(camera.linear_speed)
+                if key == d:
+                    camera.move_camera(-camera.linear_speed)
+                if key == w:
+                    camera.move_camera(z=camera.linear_speed)
+                if key == s:
+                    camera.move_camera(z=-camera.linear_speed)
+                if key == q:
+                    if (old_camera_pos[1] - camera.linear_speed) > ground_level:
+                        camera.move_camera(y = -camera.linear_speed)
+                if key == e:
+                    camera.move_camera(y = camera.linear_speed)
+                camera_pos = camera.get_position()
+                sq_dist_from_origin = camera_pos[0]**2+camera_pos[1]**2+camera_pos[2]**2
+                #print(camera_pos)
+                #print(sq_dist_from_origin)
+                if sq_dist_from_origin > max_squared_radius:
+                    camera.set_position(old_camera_pos[0], old_camera_pos[1], old_camera_pos[2])
+                    camera_pos = old_camera_pos
+                obj_array['skybox'].set_pos(camera_pos[0], camera_pos[1], camera_pos[2])
+                obj_array['skybox'].update_matrices()
+                return
+
+            if key == x:
+                spinning = not spinning
+                return
+            if key == m:
+                tree_scale += scale_inc
+                if tree_scale > max_scale:
+                    tree_scale = max_scale
+                return
+            if key == n:
+                tree_scale -= scale_inc
+                if tree_scale < min_scale:
+                    tree_scale = min_scale
+                return
+
             if key == j:
                 camera.move_camera(d_z=(camera.angular_speed))
+                return
             if key == k:
                 camera.move_camera(d_z=(-camera.angular_speed))
-            if key == q:
-                camera.move_camera(y = -camera.linear_speed)
-            if key == e:
-                camera.move_camera(y = camera.linear_speed)
+                return
             if key == r:
                 camera.linear_speed += speed_inc
+                if camera.linear_speed > max_speed:
+                    camera.linear_speed = max_speed
+                return
             if key == f:
                 camera.linear_speed -= speed_inc
+                if camera.linear_speed < min_speed:
+                    camera.linear_speed = min_speed
+                return
             if key == p:
                 polygon = not polygon
+                return
             #print(camera.view_matrix)
 
     glfw.set_key_callback(window,key_event)
@@ -183,10 +278,20 @@ def main():
             glUniformMatrix4fv(translation_loc, 1, GL_TRUE, obj.translation_matrix)
             glUniformMatrix4fv(scale_loc, 1, GL_TRUE, obj.scale_matrix)
 
-            #glDrawElements(GL_TRIANGLES, len(loader.vertex_index), GL_UNSIGNED_INT, None)
-            glDrawArrays(GL_TRIANGLES, 0, len(obj.vertex_index))
+            if key == 'tree':
+                #print(tree_pos)
+                for pos in tree_pos:
+                    glUniformMatrix4fv(translation_loc, 1, GL_TRUE, utils.gen_translation_matrix(pos[0], 0.0, pos[1]))
+                    glUniformMatrix4fv(scale_loc, 1, GL_TRUE, utils.gen_scale_matrix(pos[2]*tree_scale, pos[2]*tree_scale, pos[2]*tree_scale))
+                    glDrawArrays(GL_TRIANGLES, 0, len(obj.vertex_index))
+            else:
+                if key == 'wind_rooster' and spinning:
+                    obj_array['wind_rooster'].set_rotation(0.0, glfw.get_time(), 0.0)
+                    obj_array['wind_rooster'].update_matrices()
+                glDrawArrays(GL_TRIANGLES, 0, len(obj.vertex_index))
 
         glfw.swap_buffers(window)
+        #print(camera.get_position())
 
 if __name__ == "__main__":
     main()
