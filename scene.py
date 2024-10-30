@@ -110,7 +110,7 @@ def main():
     global obj
     obj_array["cottage"] = utils.RenderableObject("cottage", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/cottage/cottage_obj.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/cottage/textures/cottage_diffuse.png")
     obj_array["nightstand"] = utils.RenderableObject("nightstand", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/Nightstand_obj/Nightstand.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/Nightstand_obj/Wood1_Albedo.png")
-    obj_array["little_ghost"] = utils.RenderableObject("little_ghost", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/little_gost.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/ghost.png")
+    obj_array["little_ghost"] = utils.RenderableObject("little_ghost", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/little_ghost.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/little_ghost.png")
     obj_array['skybox'] = utils.RenderableObject("skybox", [0.0, 0.6, -1.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/skybox/skybox.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/skybox/skybox.png")
     obj_array['wood_floor'] = utils.RenderableObject("wood_floor", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wood_floor/wood_floor.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wood_floor/wood_floor.jpg")
     obj_array['grass'] = utils.RenderableObject("grass", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/grass/grass.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/grass/SM_Prop_Grass_1001_BaseColor.png")
@@ -159,8 +159,8 @@ def main():
     # obj_array['tree'].set_pos(17,0,0)
     # obj_array['tree'].update_matrices()
 
-    obj_array['wood_floor'].set_pos(0,0.2,0)
-    obj_array['wood_floor'].set_scale(13,1,8)
+    obj_array['wood_floor'].set_pos(-3,0.2,0)
+    obj_array['wood_floor'].set_scale(15,3,8)
     obj_array['wood_floor'].update_matrices()
 
     obj_array['wolf'].set_rotation(-90,0,math.pi)
