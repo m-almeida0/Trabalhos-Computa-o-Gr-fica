@@ -108,16 +108,17 @@ def main():
     #att: adicionando os objetos ao array
     #obj_array = {}
     global obj
-    obj_array["cottage"] = utils.RenderableObject("cottage", [0.0, 0.0, 0.0], "models/cottage/cottage_obj.obj", "models/cottage/textures/cottage_diffuse.png")
-    obj_array["nightstand"] = utils.RenderableObject("nightstand", [0.0, 0.0, 0.0], "models/Nightstand_obj/Nightstand.obj", "models/Nightstand_obj/Wood1_Albedo.png")
-    obj_array["little_ghost"] = utils.RenderableObject("little_ghost", [0.0, 0.0, 0.0], "models/ghost/little_gost.obj", "models/ghost/ghost.png")
-    obj_array['skybox'] = utils.RenderableObject("skybox", [0.0, 0.6, -1.0], "models/skybox/skybox.obj", "models/skybox/skybox.png")
-    obj_array['wood_floor'] = utils.RenderableObject("wood_floor", [0.0, 0.0, 0.0], "models/wood_floor/wood_floor.obj", "models/wood_floor/wood_floor.jpg")
-    obj_array['grass'] = utils.RenderableObject("grass", [0.0, 0.0, 0.0], "models/grass/grass.obj", "models/grass/SM_Prop_Grass_1001_BaseColor.png")
-    obj_array['wind_rooster'] = utils.RenderableObject("woord_rooster", [0.0, 0.0, 0.0], "models/wind_rooster/wind_rooster.obj", "models/wind_rooster/wind_rooster.png")
-    obj_array['wolf'] = utils.RenderableObject("wolf", [0.0, 0.0, 0.0], "models/wolf/wolf.obj", "models/wolf/wolf.jpg")
-    
-    obj_array['tree'] = utils.RenderableObject(f'tree_i', [0.0, 0.0, 0.0], "models/tree/tree.obj", "models/tree/tree.png")
+    obj_array["cottage"] = utils.RenderableObject("cottage", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/cottage/cottage_obj.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/cottage/textures/cottage_diffuse.png")
+    obj_array["nightstand"] = utils.RenderableObject("nightstand", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/Nightstand_obj/Nightstand.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/Nightstand_obj/Wood1_Albedo.png")
+    obj_array["little_ghost"] = utils.RenderableObject("little_ghost", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/little_gost.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/ghost.png")
+    obj_array['skybox'] = utils.RenderableObject("skybox", [0.0, 0.6, -1.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/skybox/skybox.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/skybox/skybox.png")
+    obj_array['wood_floor'] = utils.RenderableObject("wood_floor", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wood_floor/wood_floor.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wood_floor/wood_floor.jpg")
+    obj_array['grass'] = utils.RenderableObject("grass", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/grass/grass.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/grass/SM_Prop_Grass_1001_BaseColor.png")
+    obj_array['wind_rooster'] = utils.RenderableObject("woord_rooster", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wind_rooster/wind_rooster.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wind_rooster/wind_rooster.png")
+    obj_array['wolf'] = utils.RenderableObject("wolf", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wolf/wolf.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wolf/wolf.jpg")
+    obj_array['bed'] = utils.RenderableObject("bed", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/bed/bed.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/bed/bed.png")
+
+    obj_array['tree'] = utils.RenderableObject(f'tree_i', [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/tree/tree.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/tree/tree.png")
     obj_array['tree'].set_scale(0.01,0.01,0.01)
     obj_array['tree'].update_matrices()
     
@@ -166,6 +167,10 @@ def main():
     obj_array['wolf'].update_matrices()
     obj_array['wolf'].set_pos(25,0.11,45)
     obj_array['wolf'].update_matrices()
+
+    obj_array['bed'].set_scale(0.04,0.04,0.04)
+    obj_array['bed'].set_pos(0,0,5)
+    obj_array['bed'].update_matrices()
 
     glUseProgram(shader)
     texture1_loc = glGetUniformLocation(shader, "texture1")
