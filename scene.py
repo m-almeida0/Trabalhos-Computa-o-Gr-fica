@@ -110,13 +110,15 @@ def main():
     global obj
     obj_array["cottage"] = utils.RenderableObject("cottage", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/cottage/cottage_obj.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/cottage/textures/cottage_diffuse.png")
     obj_array["nightstand"] = utils.RenderableObject("nightstand", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/Nightstand_obj/Nightstand.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/Nightstand_obj/Wood1_Albedo.png")
-    obj_array["little_ghost"] = utils.RenderableObject("little_ghost", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/little_ghost.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/little_ghost.png")
+    # obj_array["little_ghost"] = utils.RenderableObject("little_ghost", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/little_ghost.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/ghost/little_ghost.png")
     obj_array['skybox'] = utils.RenderableObject("skybox", [0.0, 0.6, -1.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/skybox/skybox.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/skybox/skybox.png")
     obj_array['wood_floor'] = utils.RenderableObject("wood_floor", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wood_floor/wood_floor.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wood_floor/wood_floor.jpg")
     obj_array['grass'] = utils.RenderableObject("grass", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/grass/grass.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/grass/SM_Prop_Grass_1001_BaseColor.png")
     obj_array['wind_rooster'] = utils.RenderableObject("woord_rooster", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wind_rooster/wind_rooster.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wind_rooster/wind_rooster.png")
     obj_array['wolf'] = utils.RenderableObject("wolf", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wolf/wolf.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/wolf/wolf.jpg")
     obj_array['bed'] = utils.RenderableObject("bed", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/bed/bed.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/bed/bed.png")
+    obj_array['lightbulb'] = utils.RenderableObject("lightbulb", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/lightbulb/LightBulb.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/lightbulb/LightBulb_BaseColor.jpg")
+    obj_array['candle'] = utils.RenderableObject("candle", [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/candle/candle.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/candle/Candle_BaseColor.png")
 
     obj_array['tree'] = utils.RenderableObject(f'tree_i', [0.0, 0.0, 0.0], "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/tree/tree.obj", "C:/Users/olavo/Desktop/Trabalhos-Computa-o-Gr-fica/models/tree/tree.png")
     obj_array['tree'].set_scale(0.01,0.01,0.01)
@@ -143,6 +145,15 @@ def main():
     obj_array["nightstand"].set_pos(2.0, 0.11, -7)
     obj_array["nightstand"].set_scale(6,6,6)
     obj_array["nightstand"].update_matrices()
+
+    obj_array['candle'].set_pos(2.0,2.6,-7)
+    obj_array['candle'].set_scale(0.015,0.015,0.015)
+    obj_array['candle'].update_matrices()
+
+    obj_array['lightbulb'].set_scale(0.1,0.1,0.1)
+    obj_array['lightbulb'].set_rotation(math.pi,0,0)
+    obj_array['lightbulb'].set_pos(0,14.2,-0.14)
+    obj_array['lightbulb'].update_matrices()
 
     obj_array['skybox'].set_scale(10,10,10)
     obj_array['skybox'].update_matrices()
